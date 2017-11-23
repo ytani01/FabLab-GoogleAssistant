@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# $Id: fablab-google-assistant1.py,v 2.6 2017/11/23 10:45:02 ytani Exp $
+# $Id: fablab-google-assistant1.py,v 2.8 2017/11/23 16:56:19 ytani Exp ytani $
 #
 
 # Copyright (C) 2017 Google Inc.
@@ -30,19 +30,22 @@ from google.assistant.library import Assistant
 from google.assistant.library.event import EventType
 from google.assistant.library.file_helpers import existing_file
 
-import subprocess
+import subprocess           # コマンドを実行するためのライブラリ
 import RPi.GPIO as GPIO     # GPIOライブラリ
 
+# 音源データ
 SOUND_DIR='/home/ytani/sound'
 SOUND_ACK = [
         SOUND_DIR+'/computerbeep_43.mp3',
         SOUND_DIR+'/computerbeep_58.mp3',
         SOUND_DIR+'/computerbeep_12.mp3']
 
+# GPIOに関する定数(ピン番号など)
 PIN_LED = 17                # LEDのピン番号(BCM)
 PIN_BUTTON = 27             # ボタンのピン番号(BCM)
 BOUNCE_MSEC = 500           # チャタリング防止用インターバル
 
+# ボタンを押されたときの処理(割り込みハンドラ)
 def procButton(pin):
     print('*> procButton',(pin),': start')
     if pin == PIN_BUTTON:
@@ -54,6 +57,7 @@ def procButton(pin):
             assistant.stop_conversation()
     print('*< procButton',(pin),': end')
 
+# 確認音の再生
 def play_ack(num):
     cmd = ['cvlc', '-q', '--play-and-exit', SOUND_ACK[num]]
     proc = subprocess.call(cmd)
@@ -80,12 +84,13 @@ def process_event(event):
         play_ack(2)
 
     if event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED:
-        speech_str = event.args['text']         # 認識した文章を取り出す
-        if 'light' in speech_str:               # 文章を解析してLEDのON/OFF
+        speech_str = event.args['text']             # 認識した文章を取り出す
+        # 文章を解析してLEDのON/OFF
+        if 'light' in speech_str:
             if 'on' in speech_str:
-                GPIO.output(PIN_LED, GPIO.HIGH)
+                GPIO.output(PIN_LED, GPIO.HIGH)     # LED ON
             elif 'off' in speech_str:
-                GPIO.output(PIN_LED, GPIO.LOW)
+                GPIO.output(PIN_LED, GPIO.LOW)      # LED OFF
 
     print(event)
 
@@ -99,13 +104,13 @@ def process_event(event):
 
 
 def main():
-    global assistant                                # グローバル変数宣言
+    global assistant                                            # assistantをグローバル変数にする
 
     # GPIOの初期化
-    GPIO.setmode(GPIO.BCM)                          # ピンのナンバリング方法の設定
-    GPIO.setup(PIN_LED, GPIO.OUT)                   # PIN_LEDを出力に設定
-    GPIO.setup(PIN_BUTTON, GPIO.IN, GPIO.PUD_DOWN)  # PIN_BUTTONを入力に設定
-    GPIO.add_event_detect(PIN_BUTTON, GPIO.BOTH,    # 割り込みコールバックの登録 
+    GPIO.setmode(GPIO.BCM)                                      # ピンのナンバリング方法の設定
+    GPIO.setup(PIN_LED, GPIO.OUT)                               # PIN_LEDを出力に設定
+    GPIO.setup(PIN_BUTTON, GPIO.IN, GPIO.PUD_DOWN)              # PIN_BUTTONを入力に設定
+    GPIO.add_event_detect(PIN_BUTTON, GPIO.BOTH,                # 割り込みコールバックの登録 
             callback=procButton, bouncetime=BOUNCE_MSEC)
 
     parser = argparse.ArgumentParser(
@@ -135,4 +140,4 @@ if __name__ == '__main__':
         print('Ctrl-C')
     finally:
         print('GPIO.cleanup()')
-        GPIO.cleanup()  # 重要：GPIOの終了処理
+        GPIO.cleanup()              # 重要：GPIOの終了処理
