@@ -56,7 +56,7 @@ def procButton(pin):
 
 def play_ack(num):
     cmd = ['cvlc', '-q', '--play-and-exit', SOUND_ACK[num]]
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    proc = subprocess.call(cmd)
     print('* play_ack(', num, '):', SOUND_ACK[num])
 
 def process_event(event):
