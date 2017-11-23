@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# $Id: fablab-google-assistant1.py,v 2.6 2017/11/23 10:45:02 ytani Exp $
+# $Id$
 #
 
 # Copyright (C) 2017 Google Inc.
