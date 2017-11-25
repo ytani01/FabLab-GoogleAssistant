@@ -1,0 +1,56 @@
+--- fablab-google-assistant.py.orig	2017-11-25 20:25:44.225065904 +0900
++++ fablab-google-assistant.py	2017-11-25 20:20:56.316923724 +0900
+@@ -29,6 +29,7 @@
+ from google.assistant.library.file_helpers import existing_file
+ 
+ import subprocess           # コマンドを実行するためのライブラリ
++import RPi.GPIO as GPIO     # GPIOライブラリ
+ 
+ # 音源データ
+ SOUND_DIR='/home/ytani/sound'
+@@ -39,6 +40,9 @@
+ 
+ proc = None
+ 
++# GPIOに関する定数(ピン番号など)
++PIN_LED = 17                # LEDのピン番号(BCM)
++
+ # 確認音の再生
+ def play_ack(num):
+     global proc
+@@ -74,6 +78,15 @@
+     if event.type == EventType.ON_END_OF_UTTERANCE:
+         play_ack(2)
+ 
++    if event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED:
++        speech_str = event.args['text']             # 認識した文章を取り出す
++        # 文章を解析してLEDのON/OFF
++        if 'light' in speech_str:
++            if 'on' in speech_str:
++                GPIO.output(PIN_LED, GPIO.HIGH)     # LED ON
++            elif 'off' in speech_str:
++                GPIO.output(PIN_LED, GPIO.LOW)      # LED OFF
++
+     if (event.type == EventType.ON_CONVERSATION_TURN_FINISHED and
+             event.args and not event.args['with_follow_on_turn']):
+         print()
+@@ -83,6 +96,10 @@
+ def main():
+     global assistant                                            # assistantをグローバル変数にする
+ 
++    # GPIOの初期化
++    GPIO.setmode(GPIO.BCM)                                      # ピンのナンバリング方法の設定
++    GPIO.setup(PIN_LED, GPIO.OUT)                               # PIN_LEDを出力に設定
++
+     parser = argparse.ArgumentParser(
+         formatter_class=argparse.RawTextHelpFormatter)
+     parser.add_argument('--credentials', type=existing_file,
+@@ -104,4 +121,8 @@
+ 
+ 
+ if __name__ == '__main__':
++  try:
+     main()
++  finally:
++    print('GPIO.cleanup()')
++    GPIO.cleanup()              # 重要：GPIOの終了処理

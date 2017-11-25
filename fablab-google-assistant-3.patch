@@ -1,0 +1,33 @@
+--- fablab-google-assistant.py.orig	2017-11-25 20:20:56.316923724 +0900
++++ fablab-google-assistant.py	2017-11-25 20:18:51.206902055 +0900
+@@ -42,6 +42,20 @@
+ 
+ # GPIOに関する定数(ピン番号など)
+ PIN_LED = 17                # LEDのピン番号(BCM)
++PIN_BUTTON = 27             # ボタンのピン番号(BCM)
++BOUNCE_MSEC = 500           # チャタリング防止用インターバル
++
++# ボタンを押されたときの処理(割り込みハンドラ)
++def procButton(pin):
++    print('> procButton(',pin,'): ', end='')
++    if pin == PIN_BUTTON:
++        if GPIO.input(pin) == GPIO.HIGH:
++            print('Push', end='')
++            assistant.start_conversation()
++        else: # GPIO.LOW
++            print('Release', end='')
++            assistant.stop_conversation()
++    print()
+ 
+ # 確認音の再生
+ def play_ack(num):
+@@ -99,6 +113,9 @@
+     # GPIOの初期化
+     GPIO.setmode(GPIO.BCM)                                      # ピンのナンバリング方法の設定
+     GPIO.setup(PIN_LED, GPIO.OUT)                               # PIN_LEDを出力に設定
++    GPIO.setup(PIN_BUTTON, GPIO.IN, GPIO.PUD_DOWN)              # PIN_BUTTONを入力に設定
++    GPIO.add_event_detect(PIN_BUTTON, GPIO.BOTH,                # 割り込みコールバックの登録 
++            callback=procButton, bouncetime=BOUNCE_MSEC)
+ 
+     parser = argparse.ArgumentParser(
+         formatter_class=argparse.RawTextHelpFormatter)
