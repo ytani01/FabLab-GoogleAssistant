@@ -60,7 +60,7 @@ $ patch -b fablab-google-assistant.py < fablab-google-assistant-2.patch
 
 $ fablab-google-assistant.py
 ```
-Say "Hey, Google. Turn on light."
+Say "Hey, Google. Turn on light."  
 Say "Hey, Google. Turn off light."
 
 #### 2.3 Push button
@@ -72,8 +72,9 @@ $ patch -b fablab-google-assistant.py < fablab-google-assistant-3.patch
 
 $ fablab-google-assistant.py
 ```
-Push Button
+Push Button  
 Say "Turn on light."
-Push Button
+
+Push Button  
 Say "Turn off light."
 
