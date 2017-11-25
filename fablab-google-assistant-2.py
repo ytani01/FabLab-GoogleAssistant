@@ -94,8 +94,6 @@ def process_event(event):
 
 
 def main():
-    global assistant                                            # assistantをグローバル変数にする
-
     # GPIOの初期化
     GPIO.setmode(GPIO.BCM)                                      # ピンのナンバリング方法の設定
     GPIO.setup(PIN_LED, GPIO.OUT)                               # PIN_LEDを出力に設定

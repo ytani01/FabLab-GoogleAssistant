@@ -1,5 +1,5 @@
---- fablab-google-assistant.py.orig	2017-11-25 20:30:37.273974467 +0900
-+++ fablab-google-assistant.py	2017-11-25 20:25:44.225065904 +0900
+--- fablab-google-assistant-0.py	2017-11-25 20:30:37.273974467 +0900
++++ fablab-google-assistant-1.py	2017-11-25 20:43:12.909997909 +0900
 @@ -28,6 +28,29 @@
  from google.assistant.library.event import EventType
  from google.assistant.library.file_helpers import existing_file
@@ -30,7 +30,7 @@
  def process_event(event):
      """Pretty prints events.
  
-@@ -42,12 +65,24 @@
+@@ -42,9 +65,19 @@
  
      print(event)
  
@@ -50,8 +50,3 @@
  
  
  def main():
-+    global assistant                                            # assistantをグローバル変数にする
-+
-     parser = argparse.ArgumentParser(
-         formatter_class=argparse.RawTextHelpFormatter)
-     parser.add_argument('--credentials', type=existing_file,

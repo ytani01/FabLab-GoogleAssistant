@@ -1,5 +1,5 @@
---- fablab-google-assistant.py.orig	2017-11-25 20:20:56.316923724 +0900
-+++ fablab-google-assistant.py	2017-11-25 20:18:51.206902055 +0900
+--- fablab-google-assistant-2.py	2017-11-25 20:42:06.930177984 +0900
++++ fablab-google-assistant-3.py	2017-11-25 20:18:51.206902055 +0900
 @@ -42,6 +42,20 @@
  
  # GPIOに関する定数(ピン番号など)
@@ -21,7 +21,12 @@
  
  # 確認音の再生
  def play_ack(num):
-@@ -99,6 +113,9 @@
+@@ -94,9 +108,14 @@
+ 
+ 
+ def main():
++    global assistant                                            # assistantをグローバル変数にする
++
      # GPIOの初期化
      GPIO.setmode(GPIO.BCM)                                      # ピンのナンバリング方法の設定
      GPIO.setup(PIN_LED, GPIO.OUT)                               # PIN_LEDを出力に設定

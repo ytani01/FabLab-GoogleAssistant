@@ -1,5 +1,5 @@
---- fablab-google-assistant.py.orig	2017-11-25 20:25:44.225065904 +0900
-+++ fablab-google-assistant.py	2017-11-25 20:20:56.316923724 +0900
+--- fablab-google-assistant-1.py	2017-11-25 20:43:12.909997909 +0900
++++ fablab-google-assistant-2.py	2017-11-25 20:42:06.930177984 +0900
 @@ -29,6 +29,7 @@
  from google.assistant.library.file_helpers import existing_file
  
@@ -34,10 +34,10 @@
      if (event.type == EventType.ON_CONVERSATION_TURN_FINISHED and
              event.args and not event.args['with_follow_on_turn']):
          print()
-@@ -83,6 +96,10 @@
- def main():
-     global assistant                                            # assistantをグローバル変数にする
+@@ -81,6 +94,10 @@
  
+ 
+ def main():
 +    # GPIOの初期化
 +    GPIO.setmode(GPIO.BCM)                                      # ピンのナンバリング方法の設定
 +    GPIO.setup(PIN_LED, GPIO.OUT)                               # PIN_LEDを出力に設定
@@ -45,7 +45,7 @@
      parser = argparse.ArgumentParser(
          formatter_class=argparse.RawTextHelpFormatter)
      parser.add_argument('--credentials', type=existing_file,
-@@ -104,4 +121,8 @@
+@@ -102,4 +119,8 @@
  
  
  if __name__ == '__main__':

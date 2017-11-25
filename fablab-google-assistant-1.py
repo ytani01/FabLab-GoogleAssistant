@@ -81,8 +81,6 @@ def process_event(event):
 
 
 def main():
-    global assistant                                            # assistantをグローバル変数にする
-
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('--credentials', type=existing_file,
