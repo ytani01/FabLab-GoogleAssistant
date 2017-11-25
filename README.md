@@ -31,7 +31,7 @@ $ cd ~/env/bin
 $ chmod +x fablab-google-assistant.py
 ```
 
-#### 1.2 Execute original demo program
+#### 1.3 Execute original demo program
 
 ```bash
 $ . ~/env/bin/activate
@@ -44,6 +44,7 @@ $ deactivate
 ```
 
 ### 2. Exercise
+
 #### 2.1 Play ack sounds
 
 ```bash
