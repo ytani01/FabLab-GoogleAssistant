@@ -52,12 +52,12 @@ $ cd ~/env/bin
 $ cp fablab-google-assistant.py fablab-google-assistant-0.py
 $ patch -b fablab-google-assistant.py < fablab-google-assistant-1.patch
 $ source ~/env/bin/activate
-$ fablab-google-assistant.py
+(env)$ fablab-google-assistant.py
 ```
 Say "Hey, Google. How are you?"
 
 ```bash
-$ deactivate
+(env)$ deactivate
 ```
 
 #### 2.2 Turn on/off LED
@@ -67,13 +67,13 @@ $ cd ~/env/bin
 $ cp fablab-google-assistant.py fablab-google-assistant-1.py
 $ patch -b fablab-google-assistant.py < fablab-google-assistant-2.patch
 $ source ~/env/bin/activate
-$ fablab-google-assistant.py
+(env)$ fablab-google-assistant.py
 ```
 Say "Hey, Google. Turn on light."  
 Say "Hey, Google. Turn off light."
 
 ```bash
-$ deactivate
+(env)$ deactivate
 ```
 
 #### 2.3 Push button
@@ -83,7 +83,7 @@ $ cd ~/env/bin
 $ cp fablab-google-assistant.py fablab-google-assistant-2.py
 $ patch -b fablab-google-assistant.py < fablab-google-assistant-3.patch
 $ source ~/env/bin/activate
-$ fablab-google-assistant.py
+(env)$ fablab-google-assistant.py
 ```
 Push Button  
 Say "Turn on light."
@@ -92,6 +92,6 @@ Push Button
 Say "Turn off light."
 
 ```bash
-$ deactivate
+(env)$ deactivate
 ```
 
