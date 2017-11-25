@@ -4,12 +4,10 @@ Google Assistant demo program
 ## Description
 Google Assistant SDKのデモの改良版
 
-## Apply patches
+## How to apply patch file
 
 ```bash
-$ patch -b fablab-google-assistant.py < fablab-google-assistant-1.patch
-$ patch -b fablab-google-assistant.py < fablab-google-assistant-2.patch
-$ patch -b fablab-google-assistant.py < fablab-google-assistant-3.patch
+$ patch -b original_file < patch_file
 ```
 
 ## Usage
