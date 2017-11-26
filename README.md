@@ -1,8 +1,9 @@
-# FabLab-GoogleAssistant
-Google Assistant demo program 
+FabLab-GoogleAssistant
+====
+FabLab関内「AIスピーカー・ワークショップ」用
 
 ## Description
-Google Assistant SDKのデモの改良版
+Google Assistant SDKのデモを改良する
 
 ## How to apply patch file
 
