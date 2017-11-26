@@ -16,8 +16,8 @@ $ patch -b original_file < patch_file
 
 #### 1.1 Download and copy
 ```bash
-$ cd
-$ git clone https://github.com/ytani01/FabLab-GoogleAssistant.git
+cd
+git clone https://github.com/ytani01/FabLab-GoogleAssistant.git
 $ cd FabLab-GoogleAssistant
 $ cp *.patch ~/env/bin
 $ cp -r sound ~
