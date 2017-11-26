@@ -7,7 +7,7 @@
 +import RPi.GPIO as GPIO     # GPIOライブラリ
  
  # 音源データ
- SOUND_DIR='/home/ytani/sound'
+ SOUND_DIR='/home/pi/sound'
 @@ -39,6 +40,9 @@
  
  proc = None

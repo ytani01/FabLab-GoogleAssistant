@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# $Id: fablab-google-assistant1.py,v 2.10 2017/11/25 11:09:28 ytani Exp $
 
 # Copyright (C) 2017 Google Inc.
 #
@@ -31,7 +30,7 @@ from google.assistant.library.file_helpers import existing_file
 import subprocess           # コマンドを実行するためのライブラリ
 
 # 音源データ
-SOUND_DIR='/home/ytani/sound'
+SOUND_DIR='/home/pi/sound'
 SOUND_ACK = [
         SOUND_DIR+'/computerbeep_43.mp3',
         SOUND_DIR+'/computerbeep_58.mp3',

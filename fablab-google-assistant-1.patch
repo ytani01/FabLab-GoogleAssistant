@@ -7,7 +7,7 @@
 +import subprocess           # コマンドを実行するためのライブラリ
 +
 +# 音源データ
-+SOUND_DIR='/home/ytani/sound'
++SOUND_DIR='/home/pi/sound'
 +SOUND_ACK = [
 +        SOUND_DIR+'/computerbeep_43.mp3',
 +        SOUND_DIR+'/computerbeep_58.mp3',
