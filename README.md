@@ -10,7 +10,7 @@ Google Assistant SDKのデモを改良する
 ```bash
 $ patch -b file < patch_file
 $ ls
-file file.orig
+…  file  file.orig  …  patch_file  …
 $ 
 ```
 
