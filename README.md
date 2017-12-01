@@ -94,10 +94,10 @@ $ patch -b fablab-google-assistant.py < 3.patch
 $ source ~/env/bin/activate
 (env) $ fablab-google-assistant.py
 ```
-Push Button  
+[Push Button]  
 Say "Turn on light."
 
-Push Button  
+[Push Button]
 Say "Turn off light."
 
 ```bash
