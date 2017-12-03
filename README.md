@@ -45,53 +45,39 @@ $ . ~/env/bin/activate
 ```
 Say "Hey, Google. How are you?"
 
-```bash
-(env) $ deactivate
-$ 
-```
-
 ### 2. Exercise
 
 #### 2.1 Play ack sounds
 
 ```bash
-$ cd ~/env/bin
-$ cp fablab-google-assistant.py fablab-google-assistant-0.py
-$ patch -b fablab-google-assistant.py < 1.patch
-$ source ~/env/bin/activate
+($ source ~/env/bin/activate)
+(env) $ cd ~/env/bin
+(env) $ cp fablab-google-assistant.py fablab-google-assistant-0.py
+(env) $ patch -b fablab-google-assistant.py < 1.patch
 (env) $ fablab-google-assistant.py
 ```
 Say "Hey, Google. How are you?"
 
-```bash
-(env) $ deactivate
-$ 
-```
-
 #### 2.2 Turn on/off LED
 
 ```bash
-$ cd ~/env/bin
-$ cp fablab-google-assistant.py fablab-google-assistant-1.py
-$ patch -b fablab-google-assistant.py < 2.patch
-$ source ~/env/bin/activate
+($ source ~/env/bin/activate)
+(env) $ cd ~/env/bin
+(env) $ cp fablab-google-assistant.py fablab-google-assistant-1.py
+(env) $ patch -b fablab-google-assistant.py < 2.patch
+(env) $ pip3 install --upgrade rpi.gpio
 (env) $ fablab-google-assistant.py
 ```
 Say "Hey, Google. Turn on light."  
 Say "Hey, Google. Turn off light."
 
-```bash
-(env) $ deactivate
-$ 
-```
-
 #### 2.3 Push button
 
 ```bash
-$ cd ~/env/bin
-$ cp fablab-google-assistant.py fablab-google-assistant-2.py
-$ patch -b fablab-google-assistant.py < 3.patch
-$ source ~/env/bin/activate
+($ source ~/env/bin/activate)
+(env) $ cd ~/env/bin
+(env) $ cp fablab-google-assistant.py fablab-google-assistant-2.py
+(env) $ patch -b fablab-google-assistant.py < 3.patch
 (env) $ fablab-google-assistant.py
 ```
 [Push Button]  
@@ -99,9 +85,3 @@ Say "Turn on light."
 
 [Push Button]
 Say "Turn off light."
-
-```bash
-(env) $ deactivate
-$ 
-```
-
