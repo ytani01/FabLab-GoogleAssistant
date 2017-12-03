@@ -23,8 +23,10 @@ $
 ```bash
 ※ ホームディレクトリへ移動
 $ cd
+
 ※ ファイルをダウンロード
 $ git clone https://github.com/ytani01/FabLab-GoogleAssistant.git
+
 ※ ダインロードしたファイルを適切なディレクトリに配置
 $ cd FabLab-GoogleAssistant
 $ cp *.patch ~/env/bin
@@ -59,8 +61,10 @@ Say "Hey, Google. How are you?"
 ※ ソースコードを修正する前にバックアップ
 (env) $ cd ~/env/bin
 (env) $ cp fablab-google-assistant.py fablab-google-assistant-0.py
+
 ※ ソースコードの修正
 (env) $ patch -b fablab-google-assistant.py < 1.patch
+
 ※ 修正したプログラムを実行
 (env) $ fablab-google-assistant.py
 ```
@@ -72,11 +76,14 @@ Say "Hey, Google. How are you?"
 ($ source ~/env/bin/activate)
 ※ 必要なパイソンパッケージをインストール
 (env) $ pip3 install --upgrade rpi.gpio
+
 ※ ソースコードを修正する前にバックアップ
 (env) $ cd ~/env/bin
 (env) $ cp fablab-google-assistant.py fablab-google-assistant-1.py
+
 ※ ソースコードを修正
 (env) $ patch -b fablab-google-assistant.py < 2.patch
+
 ※ 修正したプログラムを実行
 (env) $ fablab-google-assistant.py
 ```
@@ -90,8 +97,10 @@ Say "Hey, Google. Turn off light."
 ※ ソースコードを修正する前にバックアップ
 (env) $ cd ~/env/bin
 (env) $ cp fablab-google-assistant.py fablab-google-assistant-2.py
+
 ※ ソースコードを修正
 (env) $ patch -b fablab-google-assistant.py < 3.patch
+
 ※ 修正したプログラムを実行
 (env) $ fablab-google-assistant.py
 ```
