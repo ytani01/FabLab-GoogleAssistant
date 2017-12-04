@@ -40,7 +40,7 @@ $ cp -r sound ~
 $ cd ~/env/lib/python3.5/site-packages/google/assistant
 $ cp __main__.py ~/env/bin/FabLabKannai-GoogleAssistant.py
 $ cd ~/env/bin
-$ chmod +x fablab-google-assistant.py
+$ chmod +x FabLabKannai-GoogleAssistant.py
 ```
 
 #### 1.3 Execute original demo program
