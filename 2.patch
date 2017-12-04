@@ -1,5 +1,5 @@
---- fablab-google-assistant-1.py	2017-11-25 20:43:12.909997909 +0900
-+++ fablab-google-assistant-2.py	2017-11-25 20:42:06.930177984 +0900
+--- FabLabKannai-GoogleAssistant-1.py	2017-11-25 20:43:12.909997909 +0900
++++ FabLabKannai-GoogleAssistant-2.py	2017-11-25 20:42:06.930177984 +0900
 @@ -29,6 +29,7 @@
  from google.assistant.library.file_helpers import existing_file
  
