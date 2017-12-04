@@ -51,9 +51,6 @@ def procButton(pin):
         if GPIO.input(pin) == GPIO.HIGH:
             print('Push', end='')
             assistant.start_conversation()
-        else: # GPIO.LOW
-            print('Release', end='')
-            assistant.stop_conversation()
     print()
 
 # 確認音の再生
