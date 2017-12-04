@@ -75,7 +75,7 @@ Say "Hey, Google. How are you?"
 ```bash
 ($ source ~/env/bin/activate)
 ※ 必要なパイソンパッケージをインストール
-(env) $ pip3 install --upgrade rpi.gpio
+(env) $ python -m pip install --upgrade rpi.gpio
 
 ※ ソースコードを修正する前にバックアップ
 (env) $ cd ~/env/bin
