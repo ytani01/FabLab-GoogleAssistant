@@ -87,8 +87,8 @@ Say "Hey, Google. How are you?"
 ※ 修正したプログラムを実行
 (env) $ fablab-google-assistant.py
 ```
-Say "Hey, Google. Turn on light."  
-Say "Hey, Google. Turn off light."
+Say "Hey, Google. Light, on."  
+Say "Hey, Google. Light, off."
 
 #### 2.3 Push button
 
@@ -105,7 +105,7 @@ Say "Hey, Google. Turn off light."
 (env) $ fablab-google-assistant.py
 ```
 [Push Button]  
-Say "Turn on light."
+Say "Light, on."
 
 [Push Button]
-Say "Turn off light."
+Say "Light, off."
