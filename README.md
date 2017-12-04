@@ -1,4 +1,4 @@
-FabLab-GoogleAssistant
+FabLabKannai-GoogleAssistant
 ====
 FabLab関内「AIスピーカー・ワークショップ」用
 
@@ -25,10 +25,10 @@ $
 $ cd
 
 ※ ファイルをダウンロード
-$ git clone https://github.com/ytani01/FabLab-GoogleAssistant.git
+$ git clone https://github.com/ytani01/FabLabKannai-GoogleAssistant.git
 
 ※ ダインロードしたファイルを適切なディレクトリに配置
-$ cd FabLab-GoogleAssistant
+$ cd FabLabKannai-GoogleAssistant
 $ cp *.patch ~/env/bin
 $ cp -r sound ~
 ```
@@ -38,7 +38,7 @@ $ cp -r sound ~
 ```bash
 ※ Google Assistant SDK のデモプログラムのソースを改造するためにコピー
 $ cd ~/env/lib/python3.5/site-packages/google/assistant
-$ cp __main__.py ~/env/bin/fablab-google-assistant.py
+$ cp __main__.py ~/env/bin/FabLabKannai-GoogleAssistant.py
 $ cd ~/env/bin
 $ chmod +x fablab-google-assistant.py
 ```
@@ -48,7 +48,7 @@ $ chmod +x fablab-google-assistant.py
 ```bash
 ※ 改造前のデモプログラムを実行
 $ source ~/env/bin/activate
-(env) $ fablab-google-assistant.py
+(env) $ FabLabKannai-GoogleAssistant.py
 ```
 Say "Hey, Google. How are you?"
 
@@ -60,13 +60,13 @@ Say "Hey, Google. How are you?"
 ($ source ~/env/bin/activate)
 ※ ソースコードを修正する前にバックアップ
 (env) $ cd ~/env/bin
-(env) $ cp fablab-google-assistant.py fablab-google-assistant-0.py
+(env) $ cp FabLabKannai-GoogleAssistant.py FabLabKannai-GoogleAssistant-0.py
 
 ※ ソースコードの修正
-(env) $ patch -b fablab-google-assistant.py < 1.patch
+(env) $ patch -b FabLabKannai-GoogleAssistant.py < 1.patch
 
 ※ 修正したプログラムを実行
-(env) $ fablab-google-assistant.py
+(env) $ FabLabKannai-GoogleAssistant.py
 ```
 Say "Hey, Google. How are you?"
 
@@ -79,13 +79,13 @@ Say "Hey, Google. How are you?"
 
 ※ ソースコードを修正する前にバックアップ
 (env) $ cd ~/env/bin
-(env) $ cp fablab-google-assistant.py fablab-google-assistant-1.py
+(env) $ cp FabLabKannai-GoogleAssistant.py FabLabKannai-GoogleAssistant-1.py
 
 ※ ソースコードを修正
-(env) $ patch -b fablab-google-assistant.py < 2.patch
+(env) $ patch -b FabLabKannai-GoogleAssistant.py < 2.patch
 
 ※ 修正したプログラムを実行
-(env) $ fablab-google-assistant.py
+(env) $ FabLabKannai-GoogleAssistant.py
 ```
 Say "Hey, Google. Light, on."  
 Say "Hey, Google. Light, off."
@@ -96,13 +96,13 @@ Say "Hey, Google. Light, off."
 ($ source ~/env/bin/activate)
 ※ ソースコードを修正する前にバックアップ
 (env) $ cd ~/env/bin
-(env) $ cp fablab-google-assistant.py fablab-google-assistant-2.py
+(env) $ cp FabLabKannai-GoogleAssistant.py FabLabKannai-GoogleAssistant-2.py
 
 ※ ソースコードを修正
-(env) $ patch -b fablab-google-assistant.py < 3.patch
+(env) $ patch -b FabLabKannai-GoogleAssistant.py < 3.patch
 
 ※ 修正したプログラムを実行
-(env) $ fablab-google-assistant.py
+(env) $ FabLabKannai-GoogleAssistant.py
 ```
 [Push Button]  
 Say "Light, on."
