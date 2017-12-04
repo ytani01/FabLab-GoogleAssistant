@@ -1,5 +1,5 @@
---- fablab-google-assistant-0.py	2017-11-25 20:30:37.273974467 +0900
-+++ fablab-google-assistant-1.py	2017-11-25 20:43:12.909997909 +0900
+--- FabLabKannai-GoogleAssistant-0.py	2017-11-25 20:30:37.273974467 +0900
++++ FabLabKannai-GoogleAssistant-1.py	2017-11-25 20:43:12.909997909 +0900
 @@ -28,6 +28,29 @@
  from google.assistant.library.event import EventType
  from google.assistant.library.file_helpers import existing_file
