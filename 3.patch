@@ -1,5 +1,5 @@
---- fablab-google-assistant-2.py	2017-11-25 20:42:06.930177984 +0900
-+++ fablab-google-assistant-3.py	2017-11-25 20:18:51.206902055 +0900
+--- FabLabKannai-GoogleAssistant-2.py	2017-11-25 20:42:06.930177984 +0900
++++ FabLabKannai-GoogleAssistant-3.py	2017-11-25 20:18:51.206902055 +0900
 @@ -42,6 +42,20 @@
  
  # GPIOに関する定数(ピン番号など)
