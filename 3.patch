@@ -1,6 +1,6 @@
---- FabLabKannai-GoogleAssistant-2.py	2017-11-25 20:42:06.930177984 +0900
-+++ FabLabKannai-GoogleAssistant-3.py	2017-11-25 20:18:51.206902055 +0900
-@@ -42,6 +42,20 @@
+--- FabLabKannai-GoogleAssistant-2.py	2017-12-04 21:08:14.917812726 +0900
++++ FabLabKannai-GoogleAssistant-3.py	2017-12-04 21:11:46.745933085 +0900
+@@ -42,6 +42,17 @@
  
  # GPIOに関する定数(ピン番号など)
  PIN_LED = 17                # LEDのピン番号(BCM)
@@ -18,7 +18,7 @@
  
  # 確認音の再生
  def play_ack(num):
-@@ -94,9 +108,14 @@
+@@ -94,9 +105,14 @@
  
  
  def main():
