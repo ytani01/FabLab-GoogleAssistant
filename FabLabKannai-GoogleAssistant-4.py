@@ -95,10 +95,10 @@ def process_event(event):
         if 'light' in speech_str:
             if 'on' in speech_str:
                 GPIO.output(PIN_LED, GPIO.HIGH)     # LED ON
-		assistant.stop_conversation()
+                assistant.stop_conversation()
             elif 'off' in speech_str:
                 GPIO.output(PIN_LED, GPIO.LOW)      # LED OFF
-		assistant.stop_conversation()
+                assistant.stop_conversation()
 
     if (event.type == EventType.ON_CONVERSATION_TURN_FINISHED and
             event.args and not event.args['with_follow_on_turn']):
