@@ -1,0 +1,13 @@
+--- FabLabKannai-GoogleAssistant-3.py	2017-12-10 14:09:13.161858100 +0900
++++ FabLabKannai-GoogleAssistant-4.py	2017-12-10 14:11:56.881585563 +0900
+@@ -95,8 +95,10 @@
+         if 'light' in speech_str:
+             if 'on' in speech_str:
+                 GPIO.output(PIN_LED, GPIO.HIGH)     # LED ON
++		assistant.stop_conversation()
+             elif 'off' in speech_str:
+                 GPIO.output(PIN_LED, GPIO.LOW)      # LED OFF
++		assistant.stop_conversation()
+ 
+     if (event.type == EventType.ON_CONVERSATION_TURN_FINISHED and
+             event.args and not event.args['with_follow_on_turn']):

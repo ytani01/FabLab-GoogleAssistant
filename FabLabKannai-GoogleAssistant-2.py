@@ -27,6 +27,7 @@ from google.assistant.library import Assistant
 from google.assistant.library.event import EventType
 from google.assistant.library.file_helpers import existing_file
 
+
 import subprocess           # コマンドを実行するためのライブラリ
 import RPi.GPIO as GPIO     # GPIOライブラリ
 
