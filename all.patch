@@ -1,0 +1,179 @@
+--- FabLabKannai-GoogleAssistant-0.py	2018-02-24 00:20:17.217899386 +0900
++++ FabLabKannai-GoogleAssistant-4.py	2018-02-24 00:23:59.927950162 +0900
+@@ -28,9 +28,97 @@
+ from google.assistant.library.event import EventType
+ from google.assistant.library.file_helpers import existing_file
+ 
++import subprocess
++import RPi.GPIO as GPIO
++
++SOUND_DIR = '/home/pi/sound'
++SOUND_ACK = [
++	SOUND_DIR + '/computerbeep_43.mp3',
++	SOUND_DIR + '/computerbeep_58.mp3',
++	SOUND_DIR + '/computerbeep_12.mp3']
++
++proc = None
++
++PIN_LED = 17
++PIN_BUTTON = 27
++BOUNCE_MSEC = 500
++
++endword = [
++        ['ありがとう', True],
++        ['またね', True],
++        ['また後で', True],
++        ['行ってきます', True],
++        ['もういい', True],
++        ['特にない',True],
++        ['じゃあまた', True],
++        ['じゃまた', True],
++        ['さようなら', True],
++        ['バイバイ', True],
++        ['終了', False],
++        ['ストップ', False],
++        ['オーケー', False],
++        ['OK', False],
++        ['おやすみ', True],
++        ['お休みなさい',True],
++        ['null', False]]
++continue_flag = True
++timeout_count = 0
+ 
+ DEVICE_API_URL = 'https://embeddedassistant.googleapis.com/v1alpha2'
+ 
++def setContinueFlag(speech_str):
++    global assistant
++    global continue_flag
++    global timeout_count
++
++    print('> setContineFlag(', speech_str, ') ', end='')
++    continue_flag = True
++
++    for w in endword:
++        if w[0] in speech_str:
++            print(w[0], ' ', end='')
++            continue_flag = False
++            timeout_count = 0
++            if not w[1]:
++                assistant.stop_conversation()
++    print(continue_flag)
++
++def turnEnd():
++    global assistant
++    global continue_flag
++
++    print('> turnEnd() continue_flag=', continue_flag)
++    if continue_flag:
++        assistant.start_conversation()
++    else:
++        continue_flag = True
++        timeout_count = 0
++        play_ack(0)
++        print()
++
++    # マイクが自然にミュートになってしまった場合に解除する
++    cmd = ['amixer', 'sset', 'Mic', 'toggle']
++    proc = subprocess.call(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++    proc = subprocess.call(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++    
++def procButton(pin):
++    global assistant
++    global continue_flag
++    global timeout_count
++
++    if pin == PIN_BUTTON:
++            continue_flag = True
++            timeout_count = 0
++            assistant.start_conversation()
++    print()
++
++def play_ack(num):
++	global proc
++
++	if proc != None:
++		proc.terminate()
++	cmd = ['cvlc', '-q', '--play-and-exit', SOUND_ACK[num]]
++	proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+ 
+ def process_device_actions(event, device_id):
+     if 'inputs' in event.args:
+@@ -47,7 +135,12 @@
+                                         yield e['command'], None
+ 
+ 
++
+ def process_event(event, device_id):
++    global assistant
++    global continue_flag
++    global timeout_count
++
+     """Pretty prints events.
+ 
+     Prints all events that occur with two spaces between each new
+@@ -61,9 +154,40 @@
+ 
+     print(event)
+ 
++    if event.type == EventType.ON_START_FINISHED:
++        play_ack(0)
++
++    if event.type == EventType.ON_CONVERSATION_TURN_STARTED:
++        play_ack(1)
++
++    if event.type == EventType.ON_END_OF_UTTERANCE:
++        play_ack(2)
++
++    if event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED:
++        speech_str = event.args['text']
++        if '照明' in speech_str:
++            if 'つけて' in speech_str:
++                GPIO.output(PIN_LED, GPIO.HIGH)
++                assistant.stop_conversation()
++            if '消して' in speech_str:
++                GPIO.output(PIN_LED, GPIO.LOW)
++                assistant.stop_conversation()
++        setContinueFlag(speech_str)
++
++    if event.type == EventType.ON_CONVERSATION_TURN_TIMEOUT:
++        timeout_count += 1
++        if timeout_count >= 2:
++            timeout_count = 0
++            continue_flag = False
++        turnEnd()
++
++    if event.type == EventType.ON_NO_RESPONSE:
++        turnEnd()
++
+     if (event.type == EventType.ON_CONVERSATION_TURN_FINISHED and
+             event.args and not event.args['with_follow_on_turn']):
+-        print()
++        turnEnd()
++
+     if event.type == EventType.ON_DEVICE_ACTION:
+         for command, params in process_device_actions(event, device_id):
+             print('Do command', command, 'with params', str(params))
+@@ -101,6 +225,14 @@
+ 
+ 
+ def main():
++    global assistant
++
++    GPIO.setmode(GPIO.BCM)
++    GPIO.setup(PIN_LED, GPIO.OUT)
++    GPIO.setup(PIN_BUTTON, GPIO.IN, GPIO.PUD_DOWN)
++    GPIO.add_event_detect(PIN_BUTTON, GPIO.BOTH,
++       callback=procButton, bouncetime=BOUNCE_MSEC)
++
+     parser = argparse.ArgumentParser(
+         formatter_class=argparse.RawTextHelpFormatter)
+     parser.add_argument('--credentials', type=existing_file,
+@@ -147,4 +279,8 @@
+ 
+ 
+ if __name__ == '__main__':
++  try:
+     main()
++  finally:
++    print('GPIO.cleanup()')
++    GPIO.cleanup()

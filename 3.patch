@@ -1,35 +1,31 @@
---- FabLabKannai-GoogleAssistant-2.py	2017-12-04 21:08:14.917812726 +0900
-+++ FabLabKannai-GoogleAssistant-3.py	2017-12-04 21:11:46.745933085 +0900
-@@ -42,6 +42,17 @@
+--- FabLabKannai-GoogleAssistant-2.py	2018-02-24 00:55:30.219676079 +0900
++++ FabLabKannai-GoogleAssistant-3.py	2018-02-24 00:59:02.059905228 +0900
+@@ -40,9 +40,18 @@
+ proc = None
  
- # GPIOに関する定数(ピン番号など)
- PIN_LED = 17                # LEDのピン番号(BCM)
-+PIN_BUTTON = 27             # ボタンのピン番号(BCM)
-+BOUNCE_MSEC = 500           # チャタリング防止用インターバル
-+
-+# ボタンを押されたときの処理(割り込みハンドラ)
+ PIN_LED = 17
++PIN_BUTTON = 27
++BOUNCE_MSEC = 500
+ 
+ DEVICE_API_URL = 'https://embeddedassistant.googleapis.com/v1alpha2'
+ 
 +def procButton(pin):
-+    print('> procButton(',pin,'): ', end='')
++    global assistant
++
 +    if pin == PIN_BUTTON:
-+        if GPIO.input(pin) == GPIO.HIGH:
-+            print('Push', end='')
 +            assistant.start_conversation()
 +    print()
- 
- # 確認音の再生
- def play_ack(num):
-@@ -94,9 +105,14 @@
- 
- 
- def main():
-+    global assistant                                            # assistantをグローバル変数にする
 +
-     # GPIOの初期化
-     GPIO.setmode(GPIO.BCM)                                      # ピンのナンバリング方法の設定
-     GPIO.setup(PIN_LED, GPIO.OUT)                               # PIN_LEDを出力に設定
-+    GPIO.setup(PIN_BUTTON, GPIO.IN, GPIO.PUD_DOWN)              # PIN_BUTTONを入力に設定
-+    GPIO.add_event_detect(PIN_BUTTON, GPIO.BOTH,                # 割り込みコールバックの登録 
-+            callback=procButton, bouncetime=BOUNCE_MSEC)
+ def play_ack(num):
+ 	global proc
+ 
+@@ -153,6 +162,9 @@
+ 
+     GPIO.setmode(GPIO.BCM)
+     GPIO.setup(PIN_LED, GPIO.OUT)
++    GPIO.setup(PIN_BUTTON, GPIO.IN, GPIO.PUD_DOWN)
++    GPIO.add_event_detect(PIN_BUTTON, GPIO.BOTH,
++       callback=procButton, bouncetime=BOUNCE_MSEC)
  
      parser = argparse.ArgumentParser(
          formatter_class=argparse.RawTextHelpFormatter)

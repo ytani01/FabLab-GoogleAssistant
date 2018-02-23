@@ -246,9 +246,18 @@ def main():
     parser.add_argument('--device_model_id', type=str,
                         metavar='DEVICE_MODEL_ID', required=True,
                         help='The device model ID registered with Google')
-    parser.add_argument('--project_id', type=str,
-                        metavar='PROJECT_ID', required=False,
-                        help='The project ID used to register device instances.')
+    parser.add_argument(
+        '--project_id',
+        type=str,
+        metavar='PROJECT_ID',
+        required=False,
+        help='The project ID used to register device instances.')
+    parser.add_argument(
+        '-v',
+        '--version',
+        action='version',
+        version='%(prog)s ' +
+        Assistant.__version_str__())
 
     args = parser.parse_args()
     with open(args.credentials, 'r') as f:

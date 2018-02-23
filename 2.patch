@@ -1,51 +1,63 @@
---- FabLabKannai-GoogleAssistant-1.py	2017-11-25 20:43:12.909997909 +0900
-+++ FabLabKannai-GoogleAssistant-2.py	2017-11-25 20:42:06.930177984 +0900
+--- FabLabKannai-GoogleAssistant-1.py	2018-02-24 00:45:32.289040393 +0900
++++ FabLabKannai-GoogleAssistant-2.py	2018-02-24 00:55:30.219676079 +0900
 @@ -29,6 +29,7 @@
  from google.assistant.library.file_helpers import existing_file
  
- import subprocess           # コマンドを実行するためのライブラリ
-+import RPi.GPIO as GPIO     # GPIOライブラリ
+ import subprocess
++import RPi.GPIO as GPIO
  
- # 音源データ
- SOUND_DIR='/home/pi/sound'
-@@ -39,6 +40,9 @@
+ SOUND_DIR = '/home/pi/sound'
+ SOUND_ACK = [
+@@ -38,6 +39,8 @@
  
  proc = None
  
-+# GPIOに関する定数(ピン番号など)
-+PIN_LED = 17                # LEDのピン番号(BCM)
++PIN_LED = 17
 +
- # 確認音の再生
+ DEVICE_API_URL = 'https://embeddedassistant.googleapis.com/v1alpha2'
+ 
  def play_ack(num):
-     global proc
-@@ -74,6 +78,15 @@
+@@ -63,7 +66,10 @@
+                                         yield e['command'], None
+ 
+ 
++
+ def process_event(event, device_id):
++    global assistant
++
+     """Pretty prints events.
+ 
+     Prints all events that occur with two spaces between each new
+@@ -86,6 +92,16 @@
      if event.type == EventType.ON_END_OF_UTTERANCE:
          play_ack(2)
  
 +    if event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED:
-+        speech_str = event.args['text']             # 認識した文章を取り出す
-+        # 文章を解析してLEDのON/OFF
-+        if 'light' in speech_str:
-+            if 'on' in speech_str:
-+                GPIO.output(PIN_LED, GPIO.HIGH)     # LED ON
-+            elif 'off' in speech_str:
-+                GPIO.output(PIN_LED, GPIO.LOW)      # LED OFF
++        speech_str = event.args['text']
++        if '照明' in speech_str:
++            if 'つけて' in speech_str:
++                GPIO.output(PIN_LED, GPIO.HIGH)
++                assistant.stop_conversation()
++            if '消して' in speech_str:
++                GPIO.output(PIN_LED, GPIO.LOW)
++                assistant.stop_conversation()
 +
-     if (event.type == EventType.ON_CONVERSATION_TURN_FINISHED and
-             event.args and not event.args['with_follow_on_turn']):
-         print()
-@@ -81,6 +94,10 @@
+     if event.type == EventType.ON_CONVERSATION_TURN_TIMEOUT:
+         play_ack(0)
+ 
+@@ -133,6 +149,11 @@
  
  
  def main():
-+    # GPIOの初期化
-+    GPIO.setmode(GPIO.BCM)                                      # ピンのナンバリング方法の設定
-+    GPIO.setup(PIN_LED, GPIO.OUT)                               # PIN_LEDを出力に設定
++    global assistant
++
++    GPIO.setmode(GPIO.BCM)
++    GPIO.setup(PIN_LED, GPIO.OUT)
 +
      parser = argparse.ArgumentParser(
          formatter_class=argparse.RawTextHelpFormatter)
      parser.add_argument('--credentials', type=existing_file,
-@@ -102,4 +119,8 @@
+@@ -179,4 +200,8 @@
  
  
  if __name__ == '__main__':
@@ -53,4 +65,4 @@
      main()
 +  finally:
 +    print('GPIO.cleanup()')
-+    GPIO.cleanup()              # 重要：GPIOの終了処理
++    GPIO.cleanup()

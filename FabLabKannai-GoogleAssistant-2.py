@@ -21,41 +21,55 @@ import argparse
 import os.path
 import json
 
+import google.auth.transport.requests
 import google.oauth2.credentials
 
 from google.assistant.library import Assistant
 from google.assistant.library.event import EventType
 from google.assistant.library.file_helpers import existing_file
 
+import subprocess
+import RPi.GPIO as GPIO
 
-import subprocess           # コマンドを実行するためのライブラリ
-import RPi.GPIO as GPIO     # GPIOライブラリ
-
-# 音源データ
-SOUND_DIR='/home/pi/sound'
+SOUND_DIR = '/home/pi/sound'
 SOUND_ACK = [
-        SOUND_DIR+'/computerbeep_43.mp3',
-        SOUND_DIR+'/computerbeep_58.mp3',
-        SOUND_DIR+'/computerbeep_12.mp3']
+	SOUND_DIR + '/computerbeep_43.mp3',
+	SOUND_DIR + '/computerbeep_58.mp3',
+	SOUND_DIR + '/computerbeep_12.mp3']
 
 proc = None
 
-# GPIOに関する定数(ピン番号など)
-PIN_LED = 17                # LEDのピン番号(BCM)
+PIN_LED = 17
 
-# 確認音の再生
+DEVICE_API_URL = 'https://embeddedassistant.googleapis.com/v1alpha2'
+
 def play_ack(num):
-    global proc
+	global proc
 
-    print('> play_ack(', num, '): ', end='')
-    if proc != None:
-        proc.terminate()
-        print('proc.terminate(): ', end='')
-    cmd = ['cvlc', '-q', '--play-and-exit', SOUND_ACK[num]]
-    proc = subprocess.Popen(cmd)
-    print(cmd)
+	if proc != None:
+		proc.terminate()
+	cmd = ['cvlc', '-q', '--play-and-exit', SOUND_ACK[num]]
+	proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-def process_event(event):
+def process_device_actions(event, device_id):
+    if 'inputs' in event.args:
+        for i in event.args['inputs']:
+            if i['intent'] == 'action.devices.EXECUTE':
+                for c in i['payload']['commands']:
+                    for device in c['devices']:
+                        if device['id'] == device_id:
+                            if 'execution' in c:
+                                for e in c['execution']:
+                                    if e['params']:
+                                        yield e['command'], e['params']
+                                    else:
+                                        yield e['command'], None
+
+
+
+def process_event(event, device_id):
+    global assistant
+
     """Pretty prints events.
 
     Prints all events that occur with two spaces between each new
@@ -79,24 +93,66 @@ def process_event(event):
         play_ack(2)
 
     if event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED:
-        speech_str = event.args['text']             # 認識した文章を取り出す
-        # 文章を解析してLEDのON/OFF
-        if 'light' in speech_str:
-            if 'on' in speech_str:
-                GPIO.output(PIN_LED, GPIO.HIGH)     # LED ON
-            elif 'off' in speech_str:
-                GPIO.output(PIN_LED, GPIO.LOW)      # LED OFF
+        speech_str = event.args['text']
+        if '照明' in speech_str:
+            if 'つけて' in speech_str:
+                GPIO.output(PIN_LED, GPIO.HIGH)
+                assistant.stop_conversation()
+            if '消して' in speech_str:
+                GPIO.output(PIN_LED, GPIO.LOW)
+                assistant.stop_conversation()
+
+    if event.type == EventType.ON_CONVERSATION_TURN_TIMEOUT:
+        play_ack(0)
+
+    if event.type == EventType.ON_NO_RESPONSE:
+        play_ack(0)
 
     if (event.type == EventType.ON_CONVERSATION_TURN_FINISHED and
             event.args and not event.args['with_follow_on_turn']):
-        print()
         play_ack(0)
+
+    if event.type == EventType.ON_DEVICE_ACTION:
+        for command, params in process_device_actions(event, device_id):
+            print('Do command', command, 'with params', str(params))
+
+
+def register_device(project_id, credentials, device_model_id, device_id):
+    """Register the device if needed.
+
+    Registers a new assistant device if an instance with the given id
+    does not already exists for this model.
+
+    Args:
+       project_id(str): The project ID used to register device instance.
+       credentials(google.oauth2.credentials.Credentials): The Google
+                OAuth2 credentials of the user to associate the device
+                instance with.
+       device_model_id: The registered device model ID.
+       device_id: The device ID of the new instance.
+    """
+    base_url = '/'.join([DEVICE_API_URL, 'projects', project_id, 'devices'])
+    device_url = '/'.join([base_url, device_id])
+    session = google.auth.transport.requests.AuthorizedSession(credentials)
+    r = session.get(device_url)
+    print(device_url, r.status_code)
+    if r.status_code == 404:
+        print('Registering....', end='', flush=True)
+        r = session.post(base_url, data=json.dumps({
+            'id': device_id,
+            'model_id': device_model_id,
+            'client_type': 'SDK_LIBRARY'
+        }))
+        if r.status_code != 200:
+            raise Exception('failed to register device: ' + r.text)
+        print('\rDevice registered.')
 
 
 def main():
-    # GPIOの初期化
-    GPIO.setmode(GPIO.BCM)                                      # ピンのナンバリング方法の設定
-    GPIO.setup(PIN_LED, GPIO.OUT)                               # PIN_LEDを出力に設定
+    global assistant
+
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(PIN_LED, GPIO.OUT)
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter)
@@ -108,14 +164,39 @@ def main():
                             'credentials.json'
                         ),
                         help='Path to store and read OAuth2 credentials')
+    parser.add_argument('--device_model_id', type=str,
+                        metavar='DEVICE_MODEL_ID', required=True,
+                        help='The device model ID registered with Google')
+    parser.add_argument(
+        '--project_id',
+        type=str,
+        metavar='PROJECT_ID',
+        required=False,
+        help='The project ID used to register device instances.')
+    parser.add_argument(
+        '-v',
+        '--version',
+        action='version',
+        version='%(prog)s ' +
+        Assistant.__version_str__())
+
     args = parser.parse_args()
     with open(args.credentials, 'r') as f:
         credentials = google.oauth2.credentials.Credentials(token=None,
                                                             **json.load(f))
 
-    with Assistant(credentials) as assistant:
-        for event in assistant.start():
-            process_event(event)
+    with Assistant(credentials, args.device_model_id) as assistant:
+        events = assistant.start()
+
+        print('device_model_id:', args.device_model_id + '\n' +
+              'device_id:', assistant.device_id + '\n')
+
+        if args.project_id:
+            register_device(args.project_id, credentials,
+                            args.device_model_id, assistant.device_id)
+
+        for event in events:
+            process_event(event, assistant.device_id)
 
 
 if __name__ == '__main__':
@@ -123,4 +204,4 @@ if __name__ == '__main__':
     main()
   finally:
     print('GPIO.cleanup()')
-    GPIO.cleanup()              # 重要：GPIOの終了処理
+    GPIO.cleanup()
