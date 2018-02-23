@@ -91,8 +91,8 @@ Say "Hey, Google. How are you?"
 ※ 修正したプログラムを実行
 (env) $ FabLabKannai-GoogleAssistant.py
 ```
-Say "Hey, Google. Light, on."  
-Say "Hey, Google. Light, off."
+Say "Hey, Google. 照明をつけて"
+Say "Hey, Google. 照明を消して"
 
 #### 2.3 Push button
 
@@ -109,7 +109,22 @@ Say "Hey, Google. Light, off."
 (env) $ FabLabKannai-GoogleAssistant.py
 ```
 [Push Button]  
-Say "Light, on."
+Say "照明をつけて"
 
 [Push Button]
-Say "Light, off."
+Say "照明を消して"
+
+#### 2.4 Continuous conversation
+
+```bash
+($ source ~/env/bin/activate)
+※ ソースコードを修正する前にバックアップ
+(env) $ cd ~/env/bin
+(env) $ cp FabLabKannai-GoogleAssistant.py FabLabKannai-GoogleAssistant-3.py
+
+※ ソースコードを修正
+(env) $ patch -b FabLabKannai-GoogleAssistant.py < 4.patch
+
+※ 修正したプログラムを実行
+(env) $ FabLabKannai-GoogleAssistant.py
+```
