@@ -106,10 +106,7 @@ def procButton(pin):
     global continue_flag
     global timeout_count
 
-#    print('> procButton(', pin, ')', end='')
     if pin == PIN_BUTTON:
-#        if GPIO.input(pin) == GPIO.HIGH:
-#            print(' ', GPIO.input(pin), end='')
             continue_flag = True
             timeout_count = 0
             assistant.start_conversation()
@@ -118,13 +115,10 @@ def procButton(pin):
 def play_ack(num):
 	global proc
 
-#	print('> play_ack(', num, '): ', end='')
 	if proc != None:
 		proc.terminate()
-#		print('proc.terminate(): ', end='')
 	cmd = ['cvlc', '-q', '--play-and-exit', SOUND_ACK[num]]
 	proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-#	print(cmd)
 
 def process_device_actions(event, device_id):
     if 'inputs' in event.args:
