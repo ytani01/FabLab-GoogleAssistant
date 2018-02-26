@@ -13,3 +13,5 @@ cd ~
 git clone https://github.com/ytani01/${GIT_NAME}.git
 cp ~/${GIT_NAME}/*.patch ${ENVDIR}/bin
 cp -r ~/${GIT_NAME}/sound ~
+mkdir ~/bin
+cp ~/${GIT_NAME}/bin/* ~/bin
