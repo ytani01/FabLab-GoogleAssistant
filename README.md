@@ -20,7 +20,7 @@ $
 
 #### 1.0 Google Assistant SDK
 
-see [Embed the Google Assistant](https://developers.google.com/assistant/sdk/guides/library/python/embed/setup/){:target="_blank"}
+see [Embed the Google Assistant](https://developers.google.com/assistant/sdk/guides/library/python/embed/setup/)
 
 #### 1.1 Download and copy
 
