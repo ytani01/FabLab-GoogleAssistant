@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo -n '========== '
+date
+
 BINDIR=${HOME}/bin
 
 if [ -x ${BINDIR}/AQM1602A-time-ipaddr.py ]; then
@@ -11,7 +14,11 @@ if [ -x ${BINDIR}/FabLabKannai-GoogleAssistant.sh ]; then
 	${BINDIR}/FabLabKannai-GoogleAssistant.sh &
 else
 	while ! (aplay -l | grep seeed); do
+	    echo -n '.'
 	    sleep 1
 	done
 	${BINDIR}/boot-speakipaddr.sh repeat
 fi
+
+echo -n '========== '
+date
