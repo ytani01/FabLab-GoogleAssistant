@@ -11,7 +11,9 @@ if [ ! -d ${BINDIR} ]; then
     mkdir ${BINDIR}
 fi
 
+cd
 git clone https://github.com/ytani01/speak.git
+
 cd ${BINDIR}
 ln -s ~/speak/*.sh .
 ln -s ~/speak/*.py .
