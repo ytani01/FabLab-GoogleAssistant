@@ -10,5 +10,8 @@ if [ -x ${BINDIR}/FabLabKannai-GoogleAssistant.sh ]; then
 	sleep 10
 	${BINDIR}/FabLabKannai-GoogleAssistant.sh &
 else
+	while ! (aplay -l | grep seeed); do
+	    sleep 1
+	done
 	${BINDIR}/boot-speakipaddr.sh repeat
 fi
