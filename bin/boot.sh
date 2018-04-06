@@ -10,5 +10,5 @@ if [ -x ${BINDIR}/FabLabKannai-GoogleAssistant.sh ]; then
 	sleep 10
 	${BINDIR}/FabLabKannai-GoogleAssistant.sh &
 else
-	${BINDIR}/boot-speakipaddr.sh repeat > /dev/null 2>&1
+	${BINDIR}/boot-speakipaddr.sh repeat
 fi
