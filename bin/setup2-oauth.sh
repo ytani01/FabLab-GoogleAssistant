@@ -1,16 +1,17 @@
 #!/bin/sh
 #
-# -*- coding: utf-8 -*-
-# 日本語
-
-if [ -f ./config.sh ]; then
-	. ./config.sh
-else
-	echo "no config.sh"
-	exit 1
-fi
 
 SCOPE_URL="https://www.googleapis.com/auth/assistant-sdk-prototype"
+
+MYDIR=`dirname $0`
+CONFIG_FILE=${MIDIR}/config.sh
+
+if [ -f ${CONFIG_FILE} ]; then
+	. ${CONFIG_FILE}
+else
+	echo "${CONFIG_FILE}: not found"
+	exit 1
+fi
 
 if [ ! -f ${CREDENTIAL_JSON} ]; then
 	echo "${CREDENTIAL_JSON}: not found"
@@ -25,8 +26,9 @@ if [ X${VIRTUAL_ENV} = X ]; then
 	. ${ENVBIN}/activate
 fi
 if [ X${VIRTUAL_ENV} != X${ENVDIR} ]; then
-	echo "VIRTUAL_ENV=${VIRTUAL_ENV}"
-	echo "ENVDIR     =${ENVDIR}"
+	echo "Error."
+	echo "  VIRTUAL_ENV=${VIRTUAL_ENV}"
+	echo "  ENVDIR     =${ENVDIR}"
 	exit 1
 fi
 

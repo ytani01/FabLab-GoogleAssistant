@@ -1,12 +1,13 @@
 #!/bin/sh -x
 #
-# -*- coding: utf-8 -*-
-# 日本語
 
-if [ -f ./config.sh ]; then
-	. ./config.sh
+MYDIR=`dirname $0`
+CONFIG_FILE=${MIDIR}/config.sh
+
+if [ -f ${CONFIG_FILE} ]; then
+	. ${CONFIG_FILE}
 else
-	echo "no config.sh"
+	echo "${CONFIG_FILE}: not found"
 	exit 1
 fi
 
@@ -19,6 +20,7 @@ if [ ! -d ${ENVDIR} ]; then
 	python3 -m venv ${ENVNAME}
 fi
 ${ENVBIN}/python -m pip install --upgrade pip setuptools wheel
+${ENVBIN}/python -m pip install --upgrade spidev rpi.gpio
 
 if [ ! -f ${ENVBIN}/bin/activate]; then
 	echo "Something is wrong ..."
@@ -31,20 +33,10 @@ fi
 sudo apt-get -y install portaudio19-dev libffi-dev libssl-dev
 python -m pip install --upgrade google-assistant-library
 python -m pip install --upgrade google-assistant-sdk[samples]
-
 python -m pip install --upgrade google-auth-oauthlib[tool]
 
-# Setup for Files
-cp -f ${ENVDIR}/lib/python3.5/site-packages/google/assistant/library/__main__.py ${ENVBIN}/${PROG_NAME}.py
-chmod +x ${ENVBIN}/${PROG_NAME}.py
-
-#git clone https://github.com/ytani01/${GIT_NAME}.git
-cd ${HOME}/${GIT_NAME}
-cp -f *.patch ${ENVBIN}
-cp -rf sound ~
-
-if [ -d ~/bin ]; then
-    mkdir ~/bin
-fi
-cd ${HOME}/${GIT_NAME}/bin
-cp -f *.sh *.py ~/bin
+cd ${ENVDIR}/lib/python3.5/site-packages/google/assistant/library
+cp __main__.py ${ENVBIN}
+cd ${ENVBIN}
+cp __main__py ${PROG_NAME}
+chmod +x ${PROG_NAME}.py
