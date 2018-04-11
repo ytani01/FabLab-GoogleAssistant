@@ -11,8 +11,8 @@ else
 	exit 1
 fi
 
-cd
-git clone https://github.com/ytani01/${GIT_NAME}.git
+#cd
+#git clone https://github.com/ytani01/${GIT_NAME}.git
 cd ${HOME}/${GIT_NAME}
 cp -f *.patch ${ENVBIN}
 cp -rf sound ~
