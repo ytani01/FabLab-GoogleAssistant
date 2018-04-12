@@ -1,11 +1,13 @@
---- FabLabKannai-GoogleAssistant-0.py	2018-02-24 00:20:17.217899386 +0900
-+++ FabLabKannai-GoogleAssistant-4.py	2018-02-24 00:23:59.927950162 +0900
-@@ -28,9 +28,97 @@
+--- /home/pi/env/bin/__main__.py	2018-04-12 00:08:41.531797227 +0900
++++ FabLabKannai-GoogleAssistant.py	2018-04-11 22:26:25.912616678 +0900
+@@ -28,9 +28,108 @@
  from google.assistant.library.event import EventType
  from google.assistant.library.file_helpers import existing_file
  
 +import subprocess
 +import RPi.GPIO as GPIO
++from time import sleep
++from pixels import pixels
 +
 +SOUND_DIR = '/home/pi/sound'
 +SOUND_ACK = [
@@ -15,8 +17,8 @@
 +
 +proc = None
 +
-+PIN_LED = 17
-+PIN_BUTTON = 27
++PIN_LAMP = 12
++PIN_BUTTON = [13, 17]
 +BOUNCE_MSEC = 500
 +
 +endword = [
@@ -82,23 +84,32 @@
 +    global continue_flag
 +    global timeout_count
 +
-+    if pin == PIN_BUTTON:
++    if pin in PIN_BUTTON:
 +            continue_flag = True
 +            timeout_count = 0
 +            assistant.start_conversation()
 +    print()
 +
 +def play_ack(num):
-+	global proc
++    global proc
 +
-+	if proc != None:
-+		proc.terminate()
-+	cmd = ['cvlc', '-q', '--play-and-exit', SOUND_ACK[num]]
-+	proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
++    if proc != None:
++        proc.terminate()
++    cmd = ['cvlc', '-q', '--play-and-exit', SOUND_ACK[num]]
++    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
++
++    if num == 0:
++        pixels.off()
++    if num == 1:
++        pixels.think()
++#    if num == 2:
++#        pixels.think()
++
++#    sleep(0.5)
  
  def process_device_actions(event, device_id):
      if 'inputs' in event.args:
-@@ -47,7 +135,12 @@
+@@ -47,7 +146,12 @@
                                          yield e['command'], None
  
  
@@ -111,7 +122,7 @@
      """Pretty prints events.
  
      Prints all events that occur with two spaces between each new
-@@ -61,9 +154,40 @@
+@@ -61,9 +165,40 @@
  
      print(event)
  
@@ -128,10 +139,10 @@
 +        speech_str = event.args['text']
 +        if '照明' in speech_str:
 +            if 'つけて' in speech_str:
-+                GPIO.output(PIN_LED, GPIO.HIGH)
++                GPIO.output(PIN_LAMP, GPIO.HIGH)
 +                assistant.stop_conversation()
 +            if '消して' in speech_str:
-+                GPIO.output(PIN_LED, GPIO.LOW)
++                GPIO.output(PIN_LAMP, GPIO.LOW)
 +                assistant.stop_conversation()
 +        setContinueFlag(speech_str)
 +
@@ -153,27 +164,35 @@
      if event.type == EventType.ON_DEVICE_ACTION:
          for command, params in process_device_actions(event, device_id):
              print('Do command', command, 'with params', str(params))
-@@ -101,6 +225,14 @@
+@@ -101,6 +236,21 @@
  
  
  def main():
 +    global assistant
 +
++    pixels.wakeup()
++
 +    GPIO.setmode(GPIO.BCM)
-+    GPIO.setup(PIN_LED, GPIO.OUT)
-+    GPIO.setup(PIN_BUTTON, GPIO.IN, GPIO.PUD_DOWN)
-+    GPIO.add_event_detect(PIN_BUTTON, GPIO.BOTH,
-+       callback=procButton, bouncetime=BOUNCE_MSEC)
++    GPIO.setup(PIN_LAMP, GPIO.OUT)
++    for p in PIN_BUTTON:
++        GPIO.setup(p, GPIO.IN, GPIO.PUD_DOWN)
++        if p == 13: # toggle button
++            GPIO.add_event_detect(p, GPIO.BOTH, callback=procButton, \
++                    bouncetime=BOUNCE_MSEC)
++        else:
++            GPIO.add_event_detect(p, GPIO.FALLING, callback=procButton, \
++                    bouncetime=BOUNCE_MSEC)
 +
      parser = argparse.ArgumentParser(
          formatter_class=argparse.RawTextHelpFormatter)
      parser.add_argument('--credentials', type=existing_file,
-@@ -147,4 +279,8 @@
+@@ -147,4 +297,9 @@
  
  
  if __name__ == '__main__':
 +  try:
      main()
 +  finally:
++    pixels.off()
 +    print('GPIO.cleanup()')
 +    GPIO.cleanup()

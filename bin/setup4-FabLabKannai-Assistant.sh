@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 #
 
 MYDIR=`dirname $0`
@@ -14,12 +14,8 @@ fi
 #cd
 #git clone https://github.com/ytani01/${GIT_NAME}.git
 cd ${HOME}/${GIT_NAME}
-cp -f *.patch ${ENVBIN}
+cp -f *.patch *.py ${ENVBIN}
 cp -rf sound ~
-
-### mic_hat
-cd ${HOME}/mic_hat
-cp *.py ${ENVBIN}
 
 . ${ENVBIN}/activate
 python -m pip install --upgrade rpi.gpio
