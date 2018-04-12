@@ -2,7 +2,7 @@
 #
 
 MYDIR=`dirname $0`
-CONFIG_FILE=${MIDIR}/config.sh
+CONFIG_FILE=${MYDIR}/config.sh
 
 if [ -f ${CONFIG_FILE} ]; then
 	. ${CONFIG_FILE}
@@ -17,11 +17,9 @@ cd ${HOME}/${GIT_NAME}
 cp -f *.patch ${ENVBIN}
 cp -rf sound ~
 
-if [ ! -d ${HOME}/bin ]; then
-    mkdir ${HOME}/bin
-fi
-cd ${HOME}/${GIT_NAME}/bin
-cp -f *.sh *.py ${HOME}/bin
+### mic_hat
+cd ${HOME}/mic_hat
+cp *.py ${ENVBIN}
 
 . ${ENVBIN}/activate
 python -m pip install --upgrade rpi.gpio

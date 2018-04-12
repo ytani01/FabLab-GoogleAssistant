@@ -4,7 +4,7 @@
 SCOPE_URL="https://www.googleapis.com/auth/assistant-sdk-prototype"
 
 MYDIR=`dirname $0`
-CONFIG_FILE=${MIDIR}/config.sh
+CONFIG_FILE=${MYDIR}/config.sh
 
 if [ -f ${CONFIG_FILE} ]; then
 	. ${CONFIG_FILE}

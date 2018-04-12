@@ -2,7 +2,7 @@
 #
 
 MYDIR=`dirname $0`
-CONFIG_FILE=${MIDIR}/config.sh
+CONFIG_FILE=${MYDIR}/config.sh
 
 if [ -f ${CONFIG_FILE} ]; then
 	. ${CONFIG_FILE}
@@ -11,6 +11,13 @@ else
 	exit 1
 fi
 
+### mic_hat
+cd
+git clone https://github.com/respeaker/mic_hat
+#cd mic_hat
+#cp *.py ${ENVBIN}
+
+### voicecard
 cd
 git clone https://github.com/respeaker/seeed-voicecard
 
@@ -23,15 +30,6 @@ if $? ne 0; then
    echo ====================
    exit 1
 fi
-
-### mic_hat
-cd
-git clone https://github.com/respeaker/mic_hat
-if [ -d ${HOME}/bin ]; then
-    cp *.py ${HOME}/bin
-else
-cd mic_hat
-cp *.py ${ENVBIN}
 
 echo ====================
 echo after shutdown:

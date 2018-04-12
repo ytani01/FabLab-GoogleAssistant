@@ -2,7 +2,7 @@
 #
 
 MYDIR=`dirname $0`
-CONFIG_FILE=${MIDIR}/config.sh
+CONFIG_FILE=${MYDIR}/config.sh
 
 if [ -f ${CONFIG_FILE} ]; then
 	. ${CONFIG_FILE}
@@ -38,5 +38,5 @@ python -m pip install --upgrade google-auth-oauthlib[tool]
 cd ${ENVDIR}/lib/python3.5/site-packages/google/assistant/library
 cp __main__.py ${ENVBIN}
 cd ${ENVBIN}
-cp __main__py ${PROG_NAME}
+cp __main__.py ${PROG_NAME}.py
 chmod +x ${PROG_NAME}.py
