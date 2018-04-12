@@ -29,4 +29,5 @@ cp setup*.sh ${BINDIR}
 
 sudo apt update
 sudo apt -y upgrade
+sudo apt update
 sudo apt -y install ${PKGS}
