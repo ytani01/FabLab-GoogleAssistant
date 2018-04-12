@@ -1,0 +1,4 @@
+#!/bin/sh
+#
+
+sudo systemctl enable regenerate_ssh_host_keys.service
