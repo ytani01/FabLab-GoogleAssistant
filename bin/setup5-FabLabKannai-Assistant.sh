@@ -17,5 +17,8 @@ cd ${HOME}/${GIT_NAME}
 cp -f *.patch *.py ${ENVBIN}
 cp -rf sound ~
 
+cd ${HOME}/mic_hat
+cp -f *.py ${ENVBIN}
+
 . ${ENVBIN}/activate
 python -m pip install --upgrade rpi.gpio

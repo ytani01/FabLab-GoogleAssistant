@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 #
 MYNAME=`basename $0`
 

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 #
 
 MYDIR=`dirname $0`
