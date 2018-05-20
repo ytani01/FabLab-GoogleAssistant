@@ -183,6 +183,10 @@ def process_event(event, device_id):
             if '消して' in speech_str:
                 GPIO.output(PIN_LAMP, GPIO.LOW)
                 assistant.stop_conversation()
+        if 'ikea ライト' in speech_str:
+            GPIO.output(PIN_LAMP, GPIO.LOW)
+            sleep(0.5)
+            GPIO.output(PIN_LAMP, GPIO.HIGH)
         setContinueFlag(speech_str)
 
     if event.type == EventType.ON_CONVERSATION_TURN_TIMEOUT:
