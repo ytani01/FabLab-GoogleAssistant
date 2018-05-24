@@ -1,12 +1,13 @@
 #!/bin/sh
 # -*- coding: utf-8 -*-
 
-DEVICE_MODEL_ID=your-device-model-id
+MODEL_ID_FILE=${HOME}/bin/model-id.txt
+MODEL_ID=`cat ${MODEL_ID_FILE}`
 
 ENVDIR=${HOME}/env
 BINDIR=${ENVDIR}/bin
 
-CMDLINE="FabLabKannai-GoogleAssistant.py --device_model_id ${DEVICE_MODEL_ID}"
+CMDLINE="FabLabKannai-GoogleAssistant.py --device_model_id ${MODEL_ID}"
 
 . ${BINDIR}/activate
 exec ${CMDLINE}

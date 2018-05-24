@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 #
 
 SCOPE_URL="https://www.googleapis.com/auth/assistant-sdk-prototype"

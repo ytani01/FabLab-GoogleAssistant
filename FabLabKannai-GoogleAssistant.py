@@ -247,7 +247,7 @@ def main():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(PIN_LAMP, GPIO.OUT)
     for p in PIN_BUTTON:
-        GPIO.setup(p, GPIO.IN, GPIO.PUD_DOWN)
+        GPIO.setup(p, GPIO.IN, GPIO.PUD_UP)
         if p == 13: # toggle button
             GPIO.add_event_detect(p, GPIO.BOTH, callback=procButton, \
                     bouncetime=BOUNCE_MSEC)
