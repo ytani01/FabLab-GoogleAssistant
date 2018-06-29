@@ -9,7 +9,7 @@ check_and_rm1 () {
     echo -n $1
     if [ -f $1 ]; then
 	echo -n " ... found"
-	# rm -f $1
+	rm -f $1
 	echo -n " ... removed."
     else
         echo -n " ... not found"
