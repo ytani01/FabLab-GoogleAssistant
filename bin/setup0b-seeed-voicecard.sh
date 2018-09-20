@@ -23,7 +23,7 @@ git clone https://github.com/respeaker/seeed-voicecard
 
 cd seeed-voicecard
 sudo ./install.sh
-if [ $? = 0 ]; then
+if [ $? != 0 ]; then
    echo ====================
    echo Something is wrong !!
    echo Check Error messages.
