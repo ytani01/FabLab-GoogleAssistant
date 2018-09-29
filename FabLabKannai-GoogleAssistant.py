@@ -33,6 +33,9 @@ import RPi.GPIO as GPIO
 from time import sleep
 from pixels import pixels
 
+from MisakiFont import MisakiFont
+import textwrap
+
 SOUND_DIR = '/home/pi/sound'
 SOUND_ACK = [
 	SOUND_DIR + '/computerbeep_43.mp3',
@@ -65,6 +68,8 @@ endword = [
         ['null', False]]
 continue_flag = True
 timeout_count = 0
+
+misakifont = MisakiFont()
 
 DEVICE_API_URL = 'https://embeddedassistant.googleapis.com/v1alpha2'
 
@@ -151,6 +156,7 @@ def process_event(event, device_id):
     global assistant
     global continue_flag
     global timeout_count
+    global misakifont
 
     """Pretty prints events.
 
@@ -176,6 +182,7 @@ def process_event(event, device_id):
 
     if event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED:
         speech_str = event.args['text']
+        misakifont.println(speech_str)
         if '照明' in speech_str:
             if 'つけて' in speech_str:
                 GPIO.output(PIN_LAMP, GPIO.HIGH)
@@ -196,6 +203,10 @@ def process_event(event, device_id):
             continue_flag = False
         turnEnd()
 
+    if event.type == EventType.ON_RENDER_RESPONSE:
+        speech_str = event.args['text']
+        misakifont.println(speech_str)
+        
     if event.type == EventType.ON_NO_RESPONSE:
         turnEnd()
 

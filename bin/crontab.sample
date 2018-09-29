@@ -1,4 +1,4 @@
 BINDIR=/home/pi/bin
 LOGDIR=/home/pi/tmp
 
-@reboot		${BINDIR}/boot.sh > ${LOGDIR}/boot.sh.log 2>&1 &
+@reboot		sleep 10; ${BINDIR}/boot.sh > ${LOGDIR}/boot.sh.log 2>&1 &
