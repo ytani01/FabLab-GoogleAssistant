@@ -34,7 +34,7 @@ from time import sleep
 from pixels import pixels
 
 from MisakiFont import MisakiFont
-import textwrap
+import re
 
 SOUND_DIR = '/home/pi/sound'
 SOUND_ACK = [
@@ -73,6 +73,12 @@ misakifont = MisakiFont()
 
 DEVICE_API_URL = 'https://embeddedassistant.googleapis.com/v1alpha2'
 
+def print_oled(str):
+    #print('1 ' + str)
+    str = re.sub(r'（[^）]*）', '', str)
+    #print('2 ' + str)
+    misakifont.println(str)
+    
 def setContinueFlag(speech_str):
     global assistant
     global continue_flag
@@ -182,7 +188,7 @@ def process_event(event, device_id):
 
     if event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED:
         speech_str = event.args['text']
-        misakifont.println(speech_str)
+        print_oled('> ' + speech_str)
         if '照明' in speech_str:
             if 'つけて' in speech_str:
                 GPIO.output(PIN_LAMP, GPIO.HIGH)
@@ -205,7 +211,7 @@ def process_event(event, device_id):
 
     if event.type == EventType.ON_RENDER_RESPONSE:
         speech_str = event.args['text']
-        misakifont.println(speech_str)
+        print_oled('< ' + speech_str)
         
     if event.type == EventType.ON_NO_RESPONSE:
         turnEnd()
