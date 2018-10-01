@@ -74,9 +74,11 @@ misakifont = MisakiFont()
 DEVICE_API_URL = 'https://embeddedassistant.googleapis.com/v1alpha2'
 
 def print_oled(str):
-    #print('1 ' + str)
+    #print('1:' + str + '.')
     str = re.sub(r'（[^）]*）', '', str)
-    #print('2 ' + str)
+    #print('2:' + str + '.')
+    if ( str == '' ):
+        return
     misakifont.println(str)
     
 def setContinueFlag(speech_str):
@@ -104,7 +106,7 @@ def turnEnd():
     if continue_flag:
         assistant.start_conversation()
     else:
-        continue_flag = True
+        #continue_flag = True
         timeout_count = 0
         play_ack(0)
         print()
@@ -182,6 +184,7 @@ def process_event(event, device_id):
 
     if event.type == EventType.ON_CONVERSATION_TURN_STARTED:
         play_ack(1)
+        continue_flag = True
 
     if event.type == EventType.ON_END_OF_UTTERANCE:
         play_ack(2)
