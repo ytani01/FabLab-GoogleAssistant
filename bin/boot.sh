@@ -4,8 +4,16 @@ echo -n '========== '
 date
 
 BINDIR=${HOME}/bin
+ENVDIR=${HOME}/env
+ENVBIN=${ENVDIR}/bin
+MISAKIFONT=${ENVBIN}/MisakiFont.py
+
+if [ -d ${ENVDIR} ]; then
+	. ${ENVBIN}/activate
+fi
 
 LCD=""
+
 
 CMD=${BINDIR}/thermometer-ipaddr-time.py
 I2C_DETECT=`/usr/sbin/i2cdetect -y 1 | grep 3e | sed 's/:.*$//'`
@@ -21,6 +29,10 @@ while ! (aplay -l | grep seeed); do
 	echo -n "."
 	sleep 1
 done
+
+if [ -x ${MISAKIFONT} ]; then
+	${MISAKIFONT} &
+fi
 
 if [ X${LCD} = X ]; then
 	CMD="${BINDIR}/boot-speakipaddr.sh"

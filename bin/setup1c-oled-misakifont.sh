@@ -4,7 +4,7 @@
 BINDIR=${HOME}/bin
 
 PKGS="python3-dev python3-venv"
-PIP_PKGS="rpi.gpio Adafruit_SSD1306 textwrap mojimoji"
+PIP_PKGS="rpi.gpio Adafruit_SSD1306 Pillow textwrap mojimoji"
 
 MYDIR=`dirname $0`
 CONFIG_FILE=${MYDIR}/config.sh
@@ -24,8 +24,10 @@ sudo apt -y install ${PKGS}
 python -m pip install --upgrade ${PIP_PKGS}
 
 cd
-git clone https://github.com/ytani01/OLED.git
+if [ ! -d "OLED" ]; then
+	git clone https://github.com/ytani01/OLED.git
+fi
 
 cd OLED/SSD1306/MisakiFont
-cp -f MisakiFont.py ${ENVBIN}
+cp -f MisakiFont.py ipaddr.py ${ENVBIN}
 cp -rf font ${HOME}
