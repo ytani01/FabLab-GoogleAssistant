@@ -4,7 +4,7 @@
 BINDIR=${HOME}/bin
 
 PKGS="python3-dev python3-venv"
-PIP_PKGS="rpi.gpio Adafruit_SSD1306 Pillow textwrap mojimoji"
+PIP_PKGS="rpi.gpio netifaces Adafruit_SSD1306 Pillow textwrap mojimoji"
 
 MYDIR=`dirname $0`
 CONFIG_FILE=${MYDIR}/config.sh
@@ -21,7 +21,9 @@ sudo apt -y upgrade
 sudo apt -y install ${PKGS}
 
 . ${ENVBIN}/activate
-python -m pip install --upgrade ${PIP_PKGS}
+for p in ${PIP_PKGS}; do
+	python -m pip install --upgrade $p
+done
 
 cd
 if [ ! -d "OLED" ]; then
