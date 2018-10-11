@@ -191,7 +191,7 @@ def process_event(event, device_id):
 
     if event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED:
         speech_str = event.args['text']
-        print_oled('> ' + speech_str)
+        print_oled('< ' + speech_str)
         if '照明' in speech_str:
             if 'つけて' in speech_str:
                 GPIO.output(PIN_LAMP, GPIO.HIGH)
@@ -214,7 +214,7 @@ def process_event(event, device_id):
 
     if event.type == EventType.ON_RENDER_RESPONSE:
         speech_str = event.args['text']
-        print_oled('< ' + speech_str)
+        print_oled('> ' + speech_str)
         
     if event.type == EventType.ON_NO_RESPONSE:
         turnEnd()
