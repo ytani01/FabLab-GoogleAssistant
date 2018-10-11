@@ -9,6 +9,11 @@ ENVNAME=env
 ENVDIR=${HOME}/${ENVNAME}
 ENVBIN=${ENVDIR}/bin
 
+BINDIR=${HOME}/bin
+ETCDIR=${HOME}/etc
+TMPDIR=${HOME}/tmp
+
+
 GIT_NAME=FabLabKannai-GoogleAssistant
 PROG_NAME=${GIT_NAME}
 

@@ -26,6 +26,7 @@ done
 cd ${HOME}/${GIT_NAME}/bin
 cp ${CMDS} ${BINDIR}
 cp setup*.sh ${BINDIR}
+cp requirments.txt ${BINDIR}
 
 sudo apt update
 sudo apt -y upgrade

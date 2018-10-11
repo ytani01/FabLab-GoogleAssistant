@@ -1,0 +1,10 @@
+Adafruit-GPIO
+Adafruit-PureIO
+Adafruit-SSD1306
+mojimoji
+netifaces
+pathlib2
+Pillow
+RPi.GPIO
+spidev
+urllib3

@@ -11,17 +11,6 @@ else
 	exit 1
 fi
 
-sudo apt-get update
-sudo apt-get -y upgrade
-sudo apt-get -y install python3-dev python3-venv
-
-cd
-if [ ! -d ${ENVDIR} ]; then
-	python3 -m venv ${ENVNAME}
-fi
-${ENVBIN}/python -m pip install --upgrade pip setuptools wheel
-${ENVBIN}/python -m pip install --upgrade spidev rpi.gpio
-
 if [ ! -f ${ENVBIN}/bin/activate]; then
 	echo "Something is wrong ..."
 	exit 1
