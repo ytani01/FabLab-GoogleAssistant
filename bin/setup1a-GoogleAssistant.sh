@@ -11,9 +11,9 @@ else
 	exit 1
 fi
 
-if [ ! -f ${ENVBIN}/bin/activate]; then
-	echo "Something is wrong ..."
-	exit 1
+if [ ! -f ${ENVBIN}/activate ]; then
+	echo "file not found: ${ENVBIN}/activate"
+	exit 2
 fi
 # Activate Vertual Environment
 . ${ENVBIN}/activate
