@@ -26,7 +26,9 @@ $ cd ~/FabLabKannai-GoogleAssistant/bin
 $ ./setup0a-base.sh
 ```
 
-### Google Assistant SDK
+### References
+
+#### - Google Assistant SDK
 
 see [Embed the Google Assistant](https://developers.google.com/assistant/sdk/guides/library/python/embed/setup/)
 
