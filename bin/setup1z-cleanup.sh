@@ -2,7 +2,8 @@
 #
 
 MYFILES=".bash_history .gitconfig"
-SYSFILES="/boot/credentials.json /etc/wpa_supplicant/wpa_supplicant.conf"
+#SYSFILES="/boot/credentials.json /etc/wpa_supplicant/wpa_supplicant.conf"
+SYSFILES="/boot/credentials.json"
 
 ###
 check_and_rm1 () {
