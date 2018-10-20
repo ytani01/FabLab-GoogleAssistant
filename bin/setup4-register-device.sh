@@ -64,3 +64,4 @@ googlesamples-assistant-devicetool --project-id ${PROJECT_ID} register-device \
        --model ${MODEL_ID} \
        --device ${DEVICE_ID}
 googlesamples-assistant-devicetool --project-id ${PROJECT_ID} list --device
+googlesamples-assistant-devicetool --project-id ${PROJECT_ID} list --model
