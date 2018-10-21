@@ -4,25 +4,13 @@ echo -n '========== '
 date
 
 BINDIR=${HOME}/bin
+LOGDIR=${HOME}/tmp
 ENVDIR=${HOME}/env
 ENVBIN=${ENVDIR}/bin
 MISAKIFONT=${ENVBIN}/MisakiFont.py
 
 if [ -d ${ENVDIR} ]; then
 	. ${ENVBIN}/activate
-fi
-
-LCD=""
-
-
-CMD=${BINDIR}/thermometer-ipaddr-time.py
-I2C_DETECT=`/usr/sbin/i2cdetect -y 1 | grep 3e | sed 's/:.*$//'`
-echo "I2C_DETECT=${I2C_DETECT}"
-if [ -x ${CMD} ]; then
-	if [ X${I2C_DETECT} != X ]; then
-		${CMD} > /dev/null 2>&1 &
-		LCD="ON"
-	fi
 fi
 
 while ! (aplay -l | grep seeed); do
@@ -34,16 +22,16 @@ if [ -x ${MISAKIFONT} ]; then
 	${MISAKIFONT} &
 fi
 
-if [ X${LCD} = X ]; then
-	CMD="${BINDIR}/boot-speakipaddr.sh"
-	if [ -x ${CMD} ]; then
-		${CMD}
-	fi
+CMD="${BINDIR}/speakipaddr.sh"
+if [ -x ${CMD} ]; then
+	${CMD} repeat
 fi
 
 CMD="${BINDIR}/FabLabKannai-GoogleAssistant.sh"
+LOGFILE="${LOGDIR}/`basename ${CMD}`.log"
 if [ -x ${CMD} ]; then
-	${CMD} &
+	exec ${CMD}
+	#${CMD} > ${LOGFILE} 2>&1 &
 fi
 
 echo -n '========== '
