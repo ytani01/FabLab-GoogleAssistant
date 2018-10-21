@@ -12,7 +12,8 @@ else
 fi
 
 DIRS="bin etc tmp work"
-PKGS="rcs vim nkf vlc"
+PKGS="rcs vim nkf vlc emacs-nox"
+
 BINDIR=${HOME}/bin
 CMDS="boot.sh config.sh get-project-id.py ${PROG_NAME}.sh.sample crontab.sample"
 
