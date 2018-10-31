@@ -7,19 +7,14 @@ BINDIR=${HOME}/bin
 LOGDIR=${HOME}/tmp
 ENVDIR=${HOME}/env
 ENVBIN=${ENVDIR}/bin
-MISAKIFONT=${ENVBIN}/MisakiFont.py
+BOOT_MISAKIFONT=${BINDIR}/boot-MisakiFont.sh
 
-if [ -d ${ENVDIR} ]; then
+if [ -f ${ENVDIR}/activate ]; then
 	. ${ENVBIN}/activate
 fi
 
-while ! (aplay -l | grep seeed); do
-	echo -n "."
-	sleep 1
-done
-
-if [ -x ${MISAKIFONT} ]; then
-	${MISAKIFONT} &
+if [ -x ${BOOT_MISAKIFONT} ]; then
+	${BOOT_MISAKIFONT} &
 fi
 
 CMD="${BINDIR}/speakipaddr.sh"
