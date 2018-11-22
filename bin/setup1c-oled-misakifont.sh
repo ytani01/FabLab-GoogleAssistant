@@ -31,5 +31,6 @@ if [ ! -d "OLED" ]; then
 fi
 
 cd OLED/SSD1306/MisakiFont
+cp -f boot-MisakiFont.sh ${BINDIR}
 cp -f MisakiFont.py ipaddr.py ${ENVBIN}
 cp -rf font ${HOME}
