@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/sh -x
 
 MYDIR=`dirname $0`
-CONFIG_FILE=${MYDIR}/config.h
+CONFIG_FILE=${MYDIR}/config.sh
 
 if [ -f ${CONFIG_FILE} ]; then
 	. ${CONFIG_FILE}
@@ -18,4 +18,4 @@ cp -fv ${CRONTAB_FILE} ${BINDIR}
 
 crontab ${BINDIR}/${CRONTAB_FILE}
 
-sudo shutdown -h now
+sudo shutdown -r now
