@@ -15,7 +15,7 @@ DIRS="bin etc tmp work"
 PKGS="rcs vim nkf vlc emacs-nox"
 
 BINDIR=${HOME}/bin
-CMDS="boot.sh config.sh get-project-id.py ${PROG_NAME}.sh.sample crontab.sample"
+CMDS="boot.sh config.sh get-project-id.py ${PROG_NAME}.sh.sample"
 
 cd
 for i in ${DIRS}; do
@@ -31,5 +31,4 @@ cp requirements.txt ${BINDIR}
 
 sudo apt update
 sudo apt -y upgrade
-sudo apt update
 sudo apt -y install ${PKGS}
