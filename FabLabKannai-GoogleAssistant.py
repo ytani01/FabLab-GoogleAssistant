@@ -192,7 +192,7 @@ def process_event(event, device_id):
     if event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED:
         speech_str = event.args['text']
         print_oled('< ' + speech_str)
-        if '照明' in speech_str:
+        if 'LED' in speech_str:
             if 'つけて' in speech_str:
                 GPIO.output(PIN_LAMP, GPIO.HIGH)
                 assistant.stop_conversation()
